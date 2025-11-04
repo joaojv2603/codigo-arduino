@@ -1,0 +1,50 @@
+// ==== Definição dos pinos dos LEDs ====
+int ledVerde = 2;
+int ledVermelho = 3;
+int ledAmarelo = 4;
+
+void setup() {
+  // Inicia a comunicação serial
+  Serial.begin(9600);
+
+  // Define os pinos como saída
+  pinMode(ledVerde, OUTPUT);
+  pinMode(ledVermelho, OUTPUT);
+  pinMode(ledAmarelo, OUTPUT);
+
+  // Começa com todos os LEDs apagados
+  digitalWrite(ledVerde, LOW);
+  digitalWrite(ledVermelho, LOW);
+  digitalWrite(ledAmarelo, LOW);
+
+  Serial.println("Digite V, R ou A no monitor serial:");
+}
+
+void loop() {
+  // Verifica se há algum dado recebido pela porta serial
+  if (Serial.available() > 0) {
+    char comando = Serial.read(); // lê o caractere enviado
+
+    // Apaga todos os LEDs antes de acender o escolhido
+    digitalWrite(ledVerde, LOW);
+    digitalWrite(ledVermelho, LOW);
+    digitalWrite(ledAmarelo, LOW);
+
+    // Decide qual LED acender
+    if (comando == 'V' || comando == 'v') {
+      digitalWrite(ledVerde, HIGH);
+      Serial.println("LED VERDE aceso ✅");
+    } 
+    else if (comando == 'R' || comando == 'r') {
+      digitalWrite(ledVermelho, HIGH);
+      Serial.println("LED VERMELHO aceso 🔴");
+    } 
+    else if (comando == 'A' || comando == 'a') {
+      digitalWrite(ledAmarelo, HIGH);
+      Serial.println("LED AMARELO aceso 🟡");
+    } 
+    else {
+      Serial.println("Comando inválido. Use V, R ou A.");
+    }
+  }
+}
